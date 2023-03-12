@@ -13,9 +13,13 @@ test.DiffusionCoef = 1;
 test.BoundaryVal = 1;
 
 % Call solver and store solution in x
-%x = NewtonMethod(@test.Residual, x0);
+%[x, iter] = NewtonMethod(@test.Residual, x0);
 [x, iter] = JacobianFreeNewtonKrylov(@test.Residual, x0);
+%[x,fval,exitflag,output] = fsolve(@test.Residual, x0);iter=output.iterations;
 fprintf(' NL iterations = %i\n', num2str(iter))
+
+
+%sol = eval('gmres(J,x)')
 
 % Use solution to plot the polynomial curve
 [u, z] = test.Evaluate(x);
